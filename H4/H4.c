@@ -12,7 +12,6 @@ funktio lyhimmät_polut(taulukko d)
    return m
 */
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #define n 6
 
