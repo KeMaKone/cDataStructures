@@ -44,6 +44,10 @@ int main(void){
     for(int i=0; i < n; i++){
             for(int j=0; j < n; j++){
                 table[i][j] = 9999; //Käytännässä inf
+                //Asetetaan itsensä siirtyminen nollaksi
+                if(i==j){
+                    table[i][j] = 0;
+                }
             }
         } 
     table[0][1] = 4; //ab
