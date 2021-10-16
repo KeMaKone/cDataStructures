@@ -67,7 +67,7 @@ void printList(Node* ptrll){
     printf("\n");
 }
 
-void freeLL(Node* ptrll){
+Node* freeLL(Node* ptrll){
     Node* tmp;
     for(; ptrll != NULL;){
         tmp = ptrll;
