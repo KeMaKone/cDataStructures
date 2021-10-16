@@ -88,4 +88,5 @@ int main(){
     printList(linkedListPtr);
     removeNode(linkedListPtr, listSize(linkedListPtr)-1);
     printList(linkedListPtr);
+    return 0;
 }
