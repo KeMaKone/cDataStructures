@@ -74,6 +74,7 @@ void freeLL(Node* ptrll){
         ptrll = ptrll->ptrNext;
         free(tmp);
     }
+    return NULL;
 }
 
 int main(){
