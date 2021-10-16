@@ -67,6 +67,14 @@ void printList(Node* ptrll){
     printf("\n");
 }
 
+void freeLL(Node* ptrll){
+    Node* tmp;
+    for(; ptrll != NULL;){
+        tmp = ptrll;
+        ptrll = ptrll->ptrNext;
+        free(tmp);
+    }
+}
 
 int main(){
     Node* linkedListPtr = NULL;
@@ -88,5 +96,6 @@ int main(){
     printList(linkedListPtr);
     removeNode(linkedListPtr, listSize(linkedListPtr)-1);
     printList(linkedListPtr);
+    freeLL(linkedListPtr);
     return 0;
 }
