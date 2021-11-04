@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef struct puusolmu_t {
@@ -18,8 +19,9 @@ int main(){
   
   for(i = 0; luvut[i] != 0; i++){
     lisaa_solmu(&puu, luvut[i], &etp);
+    tulosta_puu(puu);
+    printf("\n");
   }
-  tulosta_puu(puu);
   printf("\n");
 
   return 0;
@@ -74,7 +76,7 @@ void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
 void tulosta_puu(puuosoitin solmu){
   if(!solmu) return;
   tulosta_puu(solmu->vasen);
-  printf("%d ", solmu->luku);
+  printf("%d,%d ", solmu->luku, solmu->tila);
   tulosta_puu(solmu->oikea);
 }
 
@@ -121,7 +123,7 @@ void oikea_kierto(puuosoitin *emo, int *etp){
     puuosoitin lapsi, lapsenlapsi;
 
     lapsi = (*emo)->oikea;
-    if(lapsi->tila == 1){ /* RR-kierto */
+    if(lapsi->tila == -1){ /* RR-kierto */
         (*emo)->oikea = lapsi->vasen;
         lapsi->vasen = *emo;
         (*emo)->tila = 0;
