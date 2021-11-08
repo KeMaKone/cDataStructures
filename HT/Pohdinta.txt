@@ -1,0 +1,6 @@
+Miten voidaan poistaa puusta avain?
+Millaiseksi puu muodostuu, kun poistat avaimen 4?
+Mikä on haun kompleksisuus? Toteutuuko teoreettinen kompleksisuus toteuttamassasi ohjelmassa? 
+
+Löytyykö avaimet?
+    Katso itse ohjelma.
