@@ -48,22 +48,33 @@ void* freeEdgelist(Edgelist* el){
     return NULL;
 }
 
+void swapEdge(Edgelist* edge0, Edgelist* edge1){
+    Edge tmp;
+    tmp.src = edge0->edge.src;
+    tmp.dest = edge0->edge.dest;
+    tmp.weight = edge0->edge.weight;
+
+    edge0->edge.src = edge1->edge.src;
+    edge0->edge.dest = edge1->edge.dest;
+    edge0->edge.weight = edge1->edge.weight;
+
+    edge1->edge.src = tmp.src;
+    edge1->edge.dest = tmp.dest;
+    edge1->edge.weight = tmp.weight;
+
+}
+
 
 void sortEdgelist(Edgelist* el){
-    Edgelist* orderedlist = NULL; 
-
-
-    Edgelist* pMin = el;
     Edgelist* tmp0 = el;
     Edgelist* tmp1 = tmp0->pNext;
     while(tmp0->pNext != NULL){
         while(tmp1 != NULL){
             if(tmp0->edge.weight > tmp1->edge.weight){
-                pMin = tmp1;
+                swapEdge(tmp0, tmp1);
             }
             tmp1 = tmp1->pNext;
         }
-        orderedlist = addEdge(orderedlist, pMin->edge.src, pMin->edge.dest, pMin->edge.weight);
         tmp0 = tmp0->pNext;
         tmp1 = tmp0->pNext;
     }
@@ -74,15 +85,27 @@ int hasNewVertex(Edgelist* el, Edge edge){
     int edgeDestInList=0;
     Edgelist* tmp = el;
     while(tmp != NULL){
-        if(edge.src == tmp->edge.src){
+        if(edge.src == tmp->edge.src || edge.src == tmp->edge.dest){
             edgeSrcInList =1;
         }
-        if(edge.dest == tmp->edge.dest){
+        if(edge.dest == tmp->edge.dest || edge.dest == tmp->edge.src){
             edgeDestInList =1;
         }
         tmp = tmp->pNext;
     }
-    return !(edgeSrcInList || edgeDestInList);
+    return !(edgeSrcInList && edgeDestInList);
+}
+
+void printEdgelist(Edgelist* el){
+    int sum =0;
+
+    Edgelist* tmp = el;
+    while(tmp != NULL){
+        sum += tmp->edge.weight;
+        printf("S:%d D:%d, W:%d\n", tmp->edge.src, tmp->edge.dest, tmp->edge.weight);
+        tmp = tmp->pNext;
+    }
+    printf("SUM: %d\n", sum);
 }
 
 /* 
@@ -98,7 +121,7 @@ algorithm Kruskal(G) is
 */
 Edgelist* kruskal(Edgelist* el){
     sortEdgelist(el);
-
+    Edgelist edgelistlist[E];
     Edgelist* f = NULL;
     Edgelist* iter = el;
     while(iter != NULL){
@@ -109,19 +132,6 @@ Edgelist* kruskal(Edgelist* el){
     }
     return f;
 }
-
-void printEdgelist(Edgelist* el){
-    int sum =0;
-
-    Edgelist* tmp = el;
-    while(tmp != NULL){
-        sum += tmp->edge.weight;
-        printf("S:%d D:%d, W:%d\n", tmp->edge.src, tmp->edge.dest, tmp->edge.weight);
-        tmp = tmp->pNext;
-    }
-    printf("SUM: %d\n", sum);
-}
-
 
 int main(){
     Edgelist* el = NULL;
