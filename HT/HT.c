@@ -22,7 +22,7 @@ void lisaa_solmu(puuosoitin *, int, int *);
 void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
 void tulosta_puu(puuosoitin);
-
+void hae_solmu(puuosoitin *, int);
 
 /* NOTES
  * puuosoitin *emo = pointer to rootnode
@@ -143,8 +143,6 @@ void oikea_kierto(puuosoitin *emo, int *etp){
 
 
 /* Tulostus
-* Puun rakentuminen vaihe vaiheelta
-* Haku ilmoittaa löytyykö vai ei
 * puun tulostus sivuttain.
 */
 void tulosta_puu(puuosoitin solmu){
@@ -155,21 +153,47 @@ void tulosta_puu(puuosoitin solmu){
 }
 
 
+//Haku ilmoittaa löytyykö ja mistä vai ei
+void hae_solmu(puuosoitin *emo, int haettuArvo){
+    return;
+}
+
+
 /* Driver
 * Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
-* 2, 4, 6, 8, 10, 12, 14, 30, 28
 * Löytyykö puusta avaimet 6, 1, 10 ja 16?
-* 2, 4, 6, 8, 10, 12, 14, 30, 28 + 26, 24, 22, 20, 18, 16
 * Löytyykö avaimet 10? ja 26? Entäpä avain 32?
 */
 int main(){
-  int etp = 0, i, luvut[] = {9,10,11,3,2,6,4,7,5,0};
+  int etp = 0, i, luvut0[] = {2, 3, 4, 6, 8, 10, 12, 14, 30, 28, 0}, haettavat0[] = {6, 1, 10, 16, 0}, 
+                  luvut1[] = {26, 24, 22, 20, 18, 16, 0},            haettavat1[] = {10, 26, 32, 0};
   puuosoitin puu = NULL;
   
-  for(i = 0; luvut[i] != 0; i++){
-    lisaa_solmu(&puu, luvut[i], &etp);
-    tulosta_puu(puu);
+  //Lisätään luvut 2, 4, 6, 8, 10, 12, 14, 30, 28
+  for(i = 0; luvut0[i] != 0; i++){
+    lisaa_solmu(&puu, luvut0[i], &etp);
+    tulosta_puu(puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
     printf("\n");
+  }
+  printf("\n");
+
+  //Löytyykö puusta avaimet 6, 1, 10 ja 16?
+  for(i = 0; haettavat0[i] != 0; i++){
+    hae_solmu(&puu, haettavat0[i]);
+  }
+  printf("\n");
+
+  //Lisätään luvut 26, 24, 22, 20, 18, 16
+  for(i = 0; luvut1[i] != 0; i++){
+    lisaa_solmu(&puu, luvut1[i], &etp);
+    tulosta_puu(puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
+    printf("\n");
+  }
+  printf("\n");
+
+  //Löytyykö puusta avaimet 6, 1, 10 ja 16?
+  for(i = 0; haettavat1[i] != 0; i++){
+    hae_solmu(&puu, haettavat1[i]);
   }
   printf("\n");
 
