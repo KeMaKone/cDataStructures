@@ -27,10 +27,10 @@ void hae_solmu(puuosoitin, int, int);
 void poista_solmu(puuosoitin *, int, int *);
 //Helperfunctions for main
 void generateList(int [], int);
-void addListToTree(puuosoitin *, int *, int []);
+void addListToTree(puuosoitin *, int *, int [], int);
 void searchListFromTree(puuosoitin *, int [], int);
 void timeSearch(puuosoitin *, int [], int);
-void treeSize(puuosoitin *, int *);
+int treeSize(puuosoitin);
 
 /* NOTES
  * puuosoitin *emo = pointer to rootnode
@@ -199,14 +199,16 @@ void generateList(int array[], int len){
     }
 }
 
-void addListToTree(puuosoitin *puu, int *etp, int array[]){
+void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
 	for(int i = 0; array[i] != 0; i++){
       lisaa_solmu(puu, array[i], etp);
-	  printf("\n");
-	  printf("Puu alkaa\n");
-      tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
-	  printf("Puu loppuu\n");
-      printf("\n");
+	  if(printBool){
+		printf("\n");
+		printf("Puu alkaa\n");
+		tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
+		printf("Puu loppuu\n");
+		printf("\n");
+	  }
     }
 }
 
@@ -221,13 +223,13 @@ void timeSearch(puuosoitin *emo, int searchArray[], int len){
     searchListFromTree(emo, searchArray, 0);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	int size = 0;
-	treeSize(emo, &size);
+	int size = treeSize(*emo);
     printf("Time spent searching %d keys from the current tree of size %d was %f\n", len, size, time_spent);
 }
 
-void treeSize(puuosoitin *emo, int* size){
-
+int treeSize(puuosoitin emo){
+	if(emo == NULL) return 0;
+	return 1+treeSize(emo->vasen)+treeSize(emo->oikea);
 }
 
 
@@ -237,20 +239,21 @@ void treeSize(puuosoitin *emo, int* size){
 * Löytyykö avaimet 10? ja 26? Entäpä avain 32?
 */
 int main(){
-    int etp = 0, i, luvut0[] = {2, 3, 4, 6, 8, 10, 12, 14, 30, 28, 0}, haettavat0[] = {6, 1, 10, 16, 0}, 
+    int etp = 0,  luvut0[] = {2, 3, 4, 6, 8, 10, 12, 14, 30, 28, 0}, haettavat0[] = {6, 1, 10, 16, 0}, 
                   luvut1[] = {26, 24, 22, 20, 18, 16, 0},            haettavat1[] = {10, 26, 32, 0};
     puuosoitin puu = NULL;
-  
+
     //Lisätään luvut 2, 4, 6, 8, 10, 12, 14, 30, 28
-    addListToTree(&puu, &etp, luvut0);
+    addListToTree(&puu, &etp, luvut0, 1);
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
     searchListFromTree(&puu, haettavat0, 1);
     printf("\n");
+
 	
     //Lisätään luvut 26, 24, 22, 20, 18, 16
-    addListToTree(&puu, &etp, luvut1);
+    addListToTree(&puu, &etp, luvut1, 1);
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
@@ -261,7 +264,7 @@ int main(){
     //Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
     int newKeys[100], search10[10], search100[100], search1000[1000], search10000[10000], search100000[100000];
     generateList(newKeys, 100);
-	addListToTree(&puu, &etp, newKeys);
+	addListToTree(&puu, &etp, newKeys, 0);
 	generateList(search10, 10);
     generateList(search100, 100);
     generateList(search1000, 1000);
