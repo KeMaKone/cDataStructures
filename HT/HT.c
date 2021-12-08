@@ -24,6 +24,7 @@ void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
 void tulosta_puu(puuosoitin);
 void hae_solmu(puuosoitin *, int);
+void poista_solmu(puuosoitin *, int, int *);
 //Helperfunctions for main
 void generateList(int [], int);
 void timeSearch(int [], int , puuosoitin *);
@@ -77,6 +78,10 @@ void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
     *etp = 0;
     printf("Luku %d on jo puussa\n", luku);
   }
+}
+
+void poista_solmu(puuosoitin *emo, int luku, int *etp){
+  
 }
 
 void vasen_kierto(puuosoitin *emo, int *etp){
