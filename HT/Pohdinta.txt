@@ -1,6 +1,34 @@
-Miten voidaan poistaa puusta avain?
-Millaiseksi puu muodostuu, kun poistat avaimen 4?
-Mikä on haun kompleksisuus? Toteutuuko teoreettinen kompleksisuus toteuttamassasi ohjelmassa? 
+Avaimien löytymisestä ja lisäilyistä katso itse ohjelma HT.c
 
-Löytyykö avaimet?
-    Katso itse ohjelma.
+Binäärisen hakupuun aikakompleksituus O(log(n)) ja aikamittausten jälkeen sanoisin ohjelman olevan samassa kompleksisuusluokassa.
+
+Puusta voidaan poistaa solmuja kolmella tyylillä.
+Jos poistettava solmu on juuri niin voi vaan poistaa.
+Jos poistettavalla solmulla on 1 lapsi linkitetään lapsi poistettavan solmun isään.
+Jos poistettavalla solmulla on 2 lasta, etsitään poistettavaa avainta numeerisesti lähin avain ja korvataan poistettava avain sillä.
+Poistojen jälkeen on AVL-puu tasapainoitettava.
+
+Millaiseksi puu muodostuu, kun poistat avaimen 4?
+Vaihe 0: Itse puu
+        8
+     ___|____
+    |        |
+    4        12
+ ___|___  ___|___
+|      | |       |
+2      6 10      28
+              ___|___
+             |       |
+             14      30
+                
+Vaihe 1: Poistaminen ja korvaaminen
+        8
+     ___|____
+    |        |
+    2        12
+    |___  ___|___
+       | |       |
+       6 10      28
+              ___|___
+             |       |
+             14      30
