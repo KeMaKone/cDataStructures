@@ -23,11 +23,13 @@ void lisaa_solmu(puuosoitin *, int, int *);
 void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
 void tulosta_puu(puuosoitin);
-void hae_solmu(puuosoitin *, int);
+void hae_solmu(puuosoitin, int);
 void poista_solmu(puuosoitin *, int, int *);
 //Helperfunctions for main
 void generateList(int [], int);
-void timeSearch(int [], int , puuosoitin *);
+void addListToTree(puuosoitin *, int *, int []);
+void searchListFromTree(puuosoitin *, int []);
+void timeSearch(puuosoitin *, int [], int);
 
 /* NOTES
  * puuosoitin *emo = pointer to rootnode
@@ -81,7 +83,7 @@ void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
 }
 
 void poista_solmu(puuosoitin *emo, int luku, int *etp){
-  
+
 }
 
 void vasen_kierto(puuosoitin *emo, int *etp){
@@ -152,7 +154,7 @@ void oikea_kierto(puuosoitin *emo, int *etp){
 
 
 /* Tulostus
-* puun tulostus sivuttain.
+* puun tulostus sivuttain.s
 */
 void tulosta_puu(puuosoitin solmu){
   if(!solmu) return;
@@ -163,8 +165,22 @@ void tulosta_puu(puuosoitin solmu){
 
 
 //Haku ilmoittaa löytyykö ja mistä vai ei
-void hae_solmu(puuosoitin *emo, int haettuArvo){
-    return;
+void hae_solmu(puuosoitin emo, int haettuArvo){
+  if(emo->luku < haettuArvo){
+    if((void*)emo->oikea == NULL){
+      printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      return;
+    }
+    hae_solmu(emo->oikea, haettuArvo);
+  }else if(emo->luku > haettuArvo){
+    if((void*) emo->vasen == NULL){
+      printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      return;
+    }
+    hae_solmu(emo->vasen, haettuArvo);
+  } 
+  printf("Haettu arvo %d löytyi puusta\n", haettuArvo);
+  return;
 }
 
 
@@ -175,11 +191,23 @@ void generateList(int array[], int len){
     }
 }
 
-void timeSearch(int searchArray[], int len, puuosoitin *emo){
-    clock_t begin = clock();
-    for(int i = 0; i < len; i++){
-        hae_solmu(emo, searchArray[i]);
+void addListToTree(puuosoitin *puu, int *etp, int array[]){
+	for(int i = 0; array[i] != 0; i++){
+      lisaa_solmu(puu, array[i], etp);
+      tulosta_puu(*puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
+      printf("\n");
     }
+}
+
+void searchListFromTree(puuosoitin *puu, int array[]){
+	for(int i = 0; array[i] != 0; i++){
+      hae_solmu(*puu, array[i]);
+    }
+}
+
+void timeSearch(puuosoitin *emo, int searchArray[], int len){
+    clock_t begin = clock();
+    searchListFromTree(emo, searchArray);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Time spent searching %d keys from the current tree of size 15 was %f", len, time_spent);
@@ -197,34 +225,20 @@ int main(){
     puuosoitin puu = NULL;
   
     //Lisätään luvut 2, 4, 6, 8, 10, 12, 14, 30, 28
-    for(i = 0; luvut0[i] != 0; i++){
-        lisaa_solmu(&puu, luvut0[i], &etp);
-        tulosta_puu(puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
-        printf("\n");
-    }
+    addListToTree(&puu, &etp, luvut0);
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
-    for(i = 0; haettavat0[i] != 0; i++){
-        hae_solmu(&puu, haettavat0[i]);
-    }
+    searchListFromTree(&puu, haettavat0);
     printf("\n");
 
     //Lisätään luvut 26, 24, 22, 20, 18, 16
-    for(i = 0; luvut1[i] != 0; i++){
-        lisaa_solmu(&puu, luvut1[i], &etp);
-        tulosta_puu(puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
-        printf("\n");
-    }
+    addListToTree(&puu, &etp, luvut0);
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
-    for(i = 0; haettavat1[i] != 0; i++){
-        hae_solmu(&puu, haettavat1[i]);
-    }
+    searchListFromTree(&puu, haettavat1);
     printf("\n");
-
-
 
     printf("\n");
     //Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
@@ -234,11 +248,11 @@ int main(){
     generateList(search1000, 1000);
     generateList(search10000, 10000);
     generateList(search100000, 100000);
-    timeSearch(search10, 10, &puu);
-    timeSearch(search100, 100, &puu);
-    timeSearch(search1000, 1000, &puu);
-    timeSearch(search10000, 10000, &puu);
-    timeSearch(search100000, 10000, &puu);
+    timeSearch(&puu, search10, 10);
+    timeSearch(&puu, search100, 100);
+    timeSearch(&puu, search1000, 1000);
+    timeSearch(&puu, search10000, 10000);
+    timeSearch(&puu, search100000, 10000);
     printf("\n");
     return 0;
 }
