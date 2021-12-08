@@ -79,7 +79,7 @@ void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
     }
   } else{
     *etp = 0;
-    printf("Luku %d on jo puussa\n", luku);
+    printf("Number %d is already in the tree\n", luku);
   }
 }
 
@@ -174,20 +174,20 @@ void tulosta_puu(puuosoitin solmu, int depth){
 void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
   if(emo->luku < haettuArvo){
     if((void*)emo->oikea == NULL){
-      if(printBool) printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
       return;
     }
     hae_solmu(emo->oikea, haettuArvo, printBool);
 	return;
   }else if(emo->luku > haettuArvo){
     if((void*) emo->vasen == NULL){
-      if(printBool) printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
       return;
     }
     hae_solmu(emo->vasen, haettuArvo, printBool);
 	return;
   } 
-  if(printBool) printf("Haettu arvo %d löytyi puusta\n", haettuArvo);
+  if(printBool) printf("The number %d was in the tree\n", haettuArvo);
   return;
 }
 
@@ -204,9 +204,9 @@ void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
       lisaa_solmu(puu, array[i], etp);
 	  if(printBool){
 		printf("\n");
-		printf("Puu alkaa\n");
+		printf("Tree starts\n");
 		tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
-		printf("Puu loppuu\n");
+		printf("Tree ends\n");
 		printf("\n");
 	  }
     }
@@ -262,8 +262,8 @@ int main(){
 	
     printf("\n");
     //Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
-    int newKeys[100], search10[10], search100[100], search1000[1000], search10000[10000], search100000[100000];
-    generateList(newKeys, 100);
+    int newKeys[200], search10[10], search100[100], search1000[1000], search10000[10000], search100000[100000];
+    generateList(newKeys, 200);
 	addListToTree(&puu, &etp, newKeys, 0);
 	generateList(search10, 10);
     generateList(search100, 100);
@@ -274,7 +274,7 @@ int main(){
     timeSearch(&puu, search100, 100);
     timeSearch(&puu, search1000, 1000);
     timeSearch(&puu, search10000, 10000);
-    timeSearch(&puu, search100000, 10000);
+    timeSearch(&puu, search100000, 100000);
     printf("\n");
     return 0;
 }
