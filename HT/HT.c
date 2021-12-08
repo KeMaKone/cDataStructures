@@ -22,13 +22,13 @@ typedef struct puusolmu_t {
 void lisaa_solmu(puuosoitin *, int, int *);
 void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
-void tulosta_puu(puuosoitin);
-void hae_solmu(puuosoitin, int);
+void tulosta_puu(puuosoitin, int);
+void hae_solmu(puuosoitin, int, int);
 void poista_solmu(puuosoitin *, int, int *);
 //Helperfunctions for main
 void generateList(int [], int);
 void addListToTree(puuosoitin *, int *, int []);
-void searchListFromTree(puuosoitin *, int []);
+void searchListFromTree(puuosoitin *, int [], int);
 void timeSearch(puuosoitin *, int [], int);
 
 /* NOTES
@@ -152,34 +152,39 @@ void oikea_kierto(puuosoitin *emo, int *etp){
     *etp = 0;
 }
 
-
-/* Tulostus
-* puun tulostus sivuttain.s
-*/
-void tulosta_puu(puuosoitin solmu){
+void tulosta_puu(puuosoitin solmu, int depth){
   if(!solmu) return;
-  tulosta_puu(solmu->vasen);
-  printf("%d,%d ", solmu->luku, solmu->tila);
-  tulosta_puu(solmu->oikea);
+
+  tulosta_puu(solmu->oikea, depth +1);
+  printf("\n");
+  for(int i = 0; i<depth; i++){
+	  printf(" ");
+  }
+  printf("%d\n", solmu->luku);
+  printf("\n");
+
+  tulosta_puu(solmu->vasen, depth + 1);
+  
+  
 }
 
 
 //Haku ilmoittaa löytyykö ja mistä vai ei
-void hae_solmu(puuosoitin emo, int haettuArvo){
+void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
   if(emo->luku < haettuArvo){
     if((void*)emo->oikea == NULL){
-      printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      if(printBool) printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
       return;
     }
-    hae_solmu(emo->oikea, haettuArvo);
+    hae_solmu(emo->oikea, haettuArvo, printBool);
   }else if(emo->luku > haettuArvo){
     if((void*) emo->vasen == NULL){
-      printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
+      if(printBool) printf("Valitettavasti lukua %d ei tästä puusta löytynyt\n", haettuArvo);
       return;
     }
-    hae_solmu(emo->vasen, haettuArvo);
+    hae_solmu(emo->vasen, haettuArvo, printBool);
   } 
-  printf("Haettu arvo %d löytyi puusta\n", haettuArvo);
+  if(printBool) printf("Haettu arvo %d löytyi puusta\n", haettuArvo);
   return;
 }
 
@@ -194,23 +199,23 @@ void generateList(int array[], int len){
 void addListToTree(puuosoitin *puu, int *etp, int array[]){
 	for(int i = 0; array[i] != 0; i++){
       lisaa_solmu(puu, array[i], etp);
-      tulosta_puu(*puu); // Tulostus: Puun rakentuminen vaihe vaiheelta
+      tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
       printf("\n");
     }
 }
 
-void searchListFromTree(puuosoitin *puu, int array[]){
+void searchListFromTree(puuosoitin *puu, int array[], int printBool){
 	for(int i = 0; array[i] != 0; i++){
-      hae_solmu(*puu, array[i]);
+      hae_solmu(*puu, array[i], printBool);
     }
 }
 
 void timeSearch(puuosoitin *emo, int searchArray[], int len){
     clock_t begin = clock();
-    searchListFromTree(emo, searchArray);
+    searchListFromTree(emo, searchArray, 0);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent searching %d keys from the current tree of size 15 was %f", len, time_spent);
+    printf("Time spent searching %d keys from the current tree of size 15 was %f\n", len, time_spent);
 }
 
 
@@ -229,7 +234,7 @@ int main(){
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
-    searchListFromTree(&puu, haettavat0);
+    searchListFromTree(&puu, haettavat0, 1);
     printf("\n");
 
     //Lisätään luvut 26, 24, 22, 20, 18, 16
@@ -237,7 +242,7 @@ int main(){
     printf("\n");
 
     //Löytyykö puusta avaimet 6, 1, 10 ja 16?
-    searchListFromTree(&puu, haettavat1);
+    searchListFromTree(&puu, haettavat1, 1);
     printf("\n");
 
     printf("\n");
