@@ -24,7 +24,8 @@ void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
 void tulosta_puu(puuosoitin, int);
 void hae_solmu(puuosoitin, int, int);
-//Helperfunctions for main
+void readFromFile(int []);
+void findFile(char *);
 void generateList(int [], int);
 void addListToTree(puuosoitin *, int *, int [], int);
 void searchListFromTree(puuosoitin *, int [], int);
@@ -187,8 +188,32 @@ void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
   return;
 }
 
+void readFromFile(int array[]){
+	char fileName[32];
+    FILE *pFile;
+	int readValue, i = 0;
 
-//helper functions
+	findFile(fileName);
+
+	if((pFile = fopen(fileName, "r")) == NULL){
+        perror("Error while reading file");
+        return;
+    }
+	fscanf(pFile, "%*s\n");  // luetaan otsikko
+	printf("Reading file... (MAX 1000000)\n");
+	while(fscanf(pFile, "%d\n", &readValue)){
+		array[++i] = readValue;
+	}
+	array[i] = 0;
+	fclose(pFile);
+}
+
+void findFile(char *target){
+    fflush(stdin); //tyhjennetään stdin
+    printf("Give filename: ");
+    scanf("%s", target);
+}
+
 void generateList(int array[], int len){
     for(int i=0; i<len; i++){
         array[i] = rand();
@@ -226,6 +251,24 @@ void timeSearch(puuosoitin *emo, int searchArray[], int len){
 int treeSize(puuosoitin emo){
 	if(emo == NULL) return 0;
 	return 1+treeSize(emo->vasen)+treeSize(emo->oikea);
+}
+
+void menu(){
+	char searchAns = '_';
+	int array[1000000];
+	for(int i =0; i<1000000;i++) array[i]=0;
+
+	fflush(stdin); //tyhjennetään stdin
+    printf("Add tree from file Y/n? ");
+    scanf("%c", &searchAns);
+
+	if(searchAns == 'Y' || searchAns == 'y'){
+		int etp=0;
+		puuosoitin puu = NULL;
+		readFromFile(array);
+		addListToTree(&puu, &etp, array, 1);
+	}
+	return;
 }
 
 
@@ -272,5 +315,7 @@ int main(){
     timeSearch(&puu, search10000, 10000);
     timeSearch(&puu, search100000, 100000);
     printf("\n");
+
+	menu();
     return 0;
 }
