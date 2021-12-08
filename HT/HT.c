@@ -24,7 +24,6 @@ void oikea_kierto(puuosoitin *, int *);
 void vasen_kierto(puuosoitin *, int *);
 void tulosta_puu(puuosoitin, int);
 void hae_solmu(puuosoitin, int, int);
-void poista_solmu(puuosoitin *, int, int *);
 //Helperfunctions for main
 void generateList(int [], int);
 void addListToTree(puuosoitin *, int *, int [], int);
@@ -83,9 +82,6 @@ void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
   }
 }
 
-void poista_solmu(puuosoitin *emo, int luku, int *etp){
-
-}
 
 void vasen_kierto(puuosoitin *emo, int *etp){
   puuosoitin lapsi, lapsenlapsi;
