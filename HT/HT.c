@@ -1,6 +1,5 @@
 //Tekijä Konsta Keski-Mattinen 2021.12.08
 
-#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h> 
@@ -246,11 +245,6 @@ int menu(){
 }
 
 
-/* Driver
-* 
-* Löytyykö puusta avaimet 6, 1, 10 ja 16?
-* Löytyykö avaimet 10? ja 26? Entäpä avain 32?
-*/
 int main(){
 	puuosoitin puu = NULL;
   int etp = 0;
