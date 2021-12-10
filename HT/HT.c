@@ -1,13 +1,5 @@
 //Tekijä Konsta Keski-Mattinen 2021.12.08
 
-/*
-* Lukee tiedostosta avaimet
-* Lisää luetut avaimet tasapainotettuun binääriseen hakupuuhun (linkitetty lista)
-* Tulostaa syntyneen puurakenteen
-* Hakee avaimen mukaisen tiedon puusta (hakee avaimen)
-* Lisää yksittäisiä avaimia puuhun
-*/
-
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,11 +24,6 @@ int treeSize(puuosoitin);
 void readFromFile(int []);
 void findFile(char *);
 int menu();
-
-/* NOTES
- * puuosoitin *emo = pointer to rootnode
- * int *etp = pointer to unbalance integer
-*/
 
 void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
   if(!(*emo)){
@@ -170,22 +157,15 @@ void tulosta_puu(puuosoitin solmu, int depth){
 
 //Haku ilmoittaa löytyykö ja mistä vai ei
 void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
-  if(emo->luku < haettuArvo){
-    if((void*)emo->oikea == NULL){
-      if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
-      return;
-    }
+  if(emo == NULL){
+    if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
+  } else if(emo->luku == haettuArvo){
+    if(printBool) printf("The number %d was in the tree\n", haettuArvo);
+  } else if(emo->luku < haettuArvo){
     hae_solmu(emo->oikea, haettuArvo, printBool);
-	return;
   }else if(emo->luku > haettuArvo){
-    if((void*) emo->vasen == NULL){
-      if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
-      return;
-    }
     hae_solmu(emo->vasen, haettuArvo, printBool);
-	return;
   } 
-  if(printBool) printf("The number %d was in the tree\n", haettuArvo);
   return;
 }
 
@@ -199,13 +179,13 @@ void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
 	for(int i = 0; array[i] != 0; i++){
       lisaa_solmu(puu, array[i], etp);
 	  if(printBool){
-		printf("\n");
-		printf("Tree starts\n");
-		tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
-		printf("Tree ends\n");
-		printf("\n");
+      printf("\n");
+      printf("Tree starts\n");
+      tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
+      printf("Tree ends\n");
+      printf("\n");
 	  }
-    }
+  }
 }
 
 void searchListFromTree(puuosoitin *puu, int array[], int printBool){
@@ -230,7 +210,7 @@ int treeSize(puuosoitin emo){
 
 void readFromFile(int array[]){
 	char fileName[32];
-    FILE *pFile;
+  FILE *pFile;
 	int i = 0;
 
 	findFile(fileName);
@@ -258,8 +238,8 @@ int menu(){
 	char searchAns = '0';
 
 	fflush(stdin); //tyhjennetään stdin
-    printf("Add tree from file Y/n? ");
-    scanf("%c", &searchAns);
+  printf("Add tree from file Y/n? ");
+  scanf("%c", &searchAns);
 
 	if(searchAns == 'Y' || searchAns == 'y') return 1;
 	return 0;
@@ -273,11 +253,10 @@ int menu(){
 */
 int main(){
 	puuosoitin puu = NULL;
-    int etp = 0;
-    int menuChoise = menu();
-
-    int luvut0[] = {2, 3, 4, 6, 8, 10, 12, 14, 30, 28, 0}, haettavat0[] = {6, 1, 10, 16, 0}, 
-        luvut1[] = {26, 24, 22, 20, 18, 16, 0},            haettavat1[] = {10, 26, 32, 0};
+  int etp = 0;
+  int menuChoise = menu();
+  int luvut0[] = {2, 3, 4, 6, 8, 10, 12, 14, 30, 28, 0}, haettavat0[] = {6, 1, 10, 16, 0}, 
+      luvut1[] = {26, 24, 22, 20, 18, 16, 0},            haettavat1[] = {10, 26, 32, 0};
 	
 	if(menuChoise){
 		int array[100000];
@@ -286,7 +265,8 @@ int main(){
 		for(int i=0; array[i] != 0;i++){
 			printf("%d ", array[i]);
 		}
-		addListToTree(&puu, &etp, array, 0);
+    printf("\n");
+		addListToTree(&puu, &etp, array, 1);
 		tulosta_puu(puu, 0);
 	} else {
 		//Lisätään luvut 2, 4, 6, 8, 10, 12, 14, 30, 28
