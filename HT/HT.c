@@ -162,7 +162,7 @@ void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
     if(printBool) printf("The number %d was in the tree\n", haettuArvo);
   } else if(emo->luku < haettuArvo){
     hae_solmu(emo->oikea, haettuArvo, printBool);
-  }else if(emo->luku > haettuArvo){
+  } else if(emo->luku > haettuArvo){
     hae_solmu(emo->vasen, haettuArvo, printBool);
   } 
   return;
@@ -189,17 +189,17 @@ void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
 
 void searchListFromTree(puuosoitin *puu, int array[], int printBool){
 	for(int i = 0; array[i] != 0; i++){
-      hae_solmu(*puu, array[i], printBool);
-    }
+    hae_solmu(*puu, array[i], printBool);
+  }
 }
 
 void timeSearch(puuosoitin *emo, int searchArray[], int len){
-    clock_t begin = clock();
-    searchListFromTree(emo, searchArray, 0);
-    clock_t end = clock();
-    clock_t time_spent = (end - begin);
+  clock_t begin = clock();
+  searchListFromTree(emo, searchArray, 0);
+  clock_t end = clock();
+  clock_t time_spent = (end - begin);
 	int size = treeSize(*emo);
-    printf("Time spent searching %d keys from the current tree of size %d was %ld\n", len, size, time_spent);
+    printf("Processor time spent searching %d keys from the current tree of size %d was %ld\n", len, size, time_spent);
 }
 
 int treeSize(puuosoitin emo){
@@ -215,9 +215,9 @@ void readFromFile(int array[]){
 	findFile(fileName);
 
 	if((pFile = fopen(fileName, "r")) == NULL){
-        perror("Error while reading file");
-        return;
-    }
+    perror("Error while reading file");
+    return;
+  }
 	printf("Reading file... (MAX 100000)\n");
 	while(fscanf(pFile, "%d", &array[i]) != EOF){
 		i++;

@@ -10,25 +10,25 @@ Poistojen jälkeen on AVL-puu tasapainoitettava.
 
 Millaiseksi puu muodostuu, kun poistat avaimen 4?
 Vaihe 0: Itse puu
-         8,1
+         8,0
      _____|______
     |            |
-    4,0         12,1
+    4,0         12,0
  ___|___      ___|___
 |      |     |       |
-2,0   6,0   10,1   28,0
+2,0   6,0   10,0   28,0
                   ___|___
                  |       |
                14,0      30,0
                 
 Vaihe 1: Poistaminen
-         8,0
+         8,1
      _____|_____
     |           |
-    2,1       12,1
+    2,1       12,0
     |___     ___|___
         |   |       |
-       6,0 10,1   28,0
+       6,0 10,0   28,0
                  ___|___
                 |       |
                 14,0  30,0
