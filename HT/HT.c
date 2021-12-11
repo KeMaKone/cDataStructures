@@ -1,4 +1,4 @@
-//Tekijä Konsta Keski-Mattinen 2021.12.08
+//Tekijä Konsta Keski-Mattinen 2021.12.11
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -119,16 +119,16 @@ void oikea_kierto(puuosoitin *emo, int *etp){
         (*emo)->oikea = lapsenlapsi->vasen;
         lapsenlapsi->vasen = *emo;
         switch(lapsenlapsi->tila){
-        case 1:
-            (*emo)->tila = -1;
-            lapsi->tila = 0;
-            break;
-        case 0:
-            (*emo)->tila = lapsi->tila = 0;
-            break;
-        case -1:
-            (*emo)->tila = 0;
-            lapsi->tila = 1;
+			case 1:
+				(*emo)->tila = -1;
+				lapsi->tila = 0;
+				break;
+			case 0:
+				(*emo)->tila = lapsi->tila = 0;
+				break;
+			case -1:
+				(*emo)->tila = 0;
+				lapsi->tila = 1;
         }
         *emo = lapsenlapsi;
     }
@@ -154,7 +154,7 @@ void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
 		if(printBool) printf("Unfortunately the number %d wasn't in this tree\n", haettuArvo);
 	} else if(emo->luku == haettuArvo){
 		if(printBool) printf("The number %d was in the tree\n", haettuArvo);
-	}else if(emo->luku < haettuArvo){
+	} else if(emo->luku < haettuArvo){
 		hae_solmu(emo->oikea, haettuArvo, printBool);
 	} else if(emo->luku > haettuArvo){
 		hae_solmu(emo->vasen, haettuArvo, printBool);
@@ -163,9 +163,7 @@ void hae_solmu(puuosoitin emo, int haettuArvo, int printBool){
 }
 
 void generateList(int array[], int len){
-    for(int i=0; i<len; i++){
-        array[i] = rand();
-    }
+    for(int i=0; i<len; i++) array[i] = rand();
 }
 
 void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
@@ -212,7 +210,7 @@ void readFromFile(int array[]){
 		perror("Error while reading file");
 		return;
 	}
-	printf("Reading file... (MAX 100000)\n");
+	printf("Reading file... (MAX 100000)n");
 	while(fscanf(pFile, "%d", &array[i]) != EOF){
 		i++;
 	}
