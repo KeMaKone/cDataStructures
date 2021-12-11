@@ -6,18 +6,18 @@ Aikamittausten jälkeen sanoisin haun olevan aikakompleksisuusluokassa O(n).
 Puusta voidaan poistaa solmuja kolmella tyylillä.
 Jos poistettava solmu on juuri niin voi vaan poistaa.
 Jos poistettavalla solmulla on 1 lapsi linkitetään lapsi poistettavan solmun isään.
-Jos poistettavalla solmulla on 2 lasta, etsitään poistettavaa avainta numeerisesti lähin avain ja korvataan poistettava avain sillä.
+Jos poistettavalla solmulla on 2 lasta, etsitään rekursiivisesti poistettavaa avainta numeerisesti lähin avain ja korvataan poistettava avain sillä.
 Poistojen jälkeen on AVL-puu tasapainoitettava.
 
 Millaiseksi puu muodostuu, kun poistat avaimen 4?
 Vaihe 0: Itse puu
-         8,3,1
+        8,3,1
      _____|_______
     |             |
   4,1,0         12,2,1
  ___|___       ____|____
 |       |     |         |
-2,0,0 6,0,0 10,0,0    8,1,0
+2,0,0 6,0,0 10,0,0   18,1,0
                      ___|___
                     |       |
                  14,0,0  30,0,0
@@ -29,7 +29,7 @@ Vaihe 1: Poistaminen
   2,1,1         12,2,1
     |___       ____|____
         |     |         |
-      6,0,0  10,0,0   8,1,0
+      6,0,0  10,0,0  18,1,0
                      ___|___
                     |       |
                  14,0,0  30,0,0

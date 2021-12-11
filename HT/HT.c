@@ -249,7 +249,6 @@ int main(){
 		for(int i =0; i<100000;i++) array[i]=0;
 		readFromFile(array);
 		addListToTree(&puu, &etp, array, 1);
-		tulosta_puu(puu, 0);
 	} else {
 		//Lisätään luvut 2, 4, 6, 8, 10, 12, 14, 30, 28
 		addListToTree(&puu, &etp, luvut0, 1);
