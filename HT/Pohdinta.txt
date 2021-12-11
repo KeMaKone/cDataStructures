@@ -1,7 +1,7 @@
 Avaimien löytymisestä ja lisäilyistä katso itse ohjelma HT.c
 
 Tasoitetun binäärisen hakupuun aikakompleksisuus O(log(n)), mikä johtuu puun maksimi syvyydestä. 
-Aikamittausten jälkeen sanoisin haun olevan aikakompleksisuusluokassa O(n)
+Aikamittausten jälkeen sanoisin haun olevan aikakompleksisuusluokassa O(n).
 
 Puusta voidaan poistaa solmuja kolmella tyylillä.
 Jos poistettava solmu on juuri niin voi vaan poistaa.
@@ -11,25 +11,25 @@ Poistojen jälkeen on AVL-puu tasapainoitettava.
 
 Millaiseksi puu muodostuu, kun poistat avaimen 4?
 Vaihe 0: Itse puu
-         8,0
-     _____|______
-    |            |
-    4,0         12,1
- ___|___      ___|___
-|      |     |       |
-2,0   6,0   10,0   28,0
-                  ___|___
-                 |       |
-               14,0      30,0
+         8,3,1
+     _____|_______
+    |             |
+  4,1,0         12,2,1
+ ___|___       ____|____
+|       |     |         |
+2,0,0 6,0,0 10,0,0    8,1,0
+                     ___|___
+                    |       |
+                 14,0,0  30,0,0
                 
 Vaihe 1: Poistaminen
-         8,0
-     _____|_____
-    |           |
-    2,1       12,1
-    |___     ___|___
-        |   |       |
-       6,0 10,0   28,0
-                 ___|___
-                |       |
-                14,0  30,0
+         8,3,1
+     _____|_______
+    |             |
+  2,1,1         12,2,1
+    |___       ____|____
+        |     |         |
+      6,0,0  10,0,0   8,1,0
+                     ___|___
+                    |       |
+                 14,0,0  30,0,0
