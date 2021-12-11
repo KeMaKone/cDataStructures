@@ -18,7 +18,7 @@ void hae_solmu(puuosoitin, int, int);
 void generateList(int [], int);
 void addListToTree(puuosoitin *, int *, int [], int);
 void searchListFromTree(puuosoitin *, int [], int);
-void timeSearch(puuosoitin *, int [], int);
+void timeSearch(puuosoitin *, int);
 int  treeSize(puuosoitin);
 void readFromFile(int []);
 void findFile(char *);
@@ -188,10 +188,14 @@ void searchListFromTree(puuosoitin *puu, int array[], int printBool){
 	for(int i = 0; array[i] != 0; i++) hae_solmu(*puu, array[i], printBool);
 }
 
-void timeSearch(puuosoitin *emo, int searchArray[], int len){
+void timeSearch(puuosoitin *emo, int len){
+	int searchArray[len];
+	generateList(searchArray, len);
+
 	clock_t begin = clock();
 	searchListFromTree(emo, searchArray, 0);
 	clock_t end = clock();
+
 	clock_t time_spent = (end - begin);
 	int size = treeSize(*emo);
     printf("Processor time spent searching %d keys from the current tree of size %d was %ld\n", len, size, time_spent);
@@ -270,18 +274,13 @@ int main(){
 	searchListFromTree(&puu, haettavat1, 1);
 	printf("\n");
 	printf("\n");
+
 	//Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
-	int search10[10], search100[100], search1000[1000], search10000[10000], search100000[100000];
-	generateList(search10, 10);
-	generateList(search100, 100);
-	generateList(search1000, 1000);
-	generateList(search10000, 10000);
-	generateList(search100000, 100000);
-	timeSearch(&puu, search10, 10);
-	timeSearch(&puu, search100, 100);
-	timeSearch(&puu, search1000, 1000);
-	timeSearch(&puu, search10000, 10000);
-	timeSearch(&puu, search100000, 100000);
+	timeSearch(&puu, 10);
+	timeSearch(&puu, 100);
+	timeSearch(&puu, 1000);
+	timeSearch(&puu, 10000);
+	timeSearch(&puu, 100000);
 	printf("\n");
 
 	return 0;
