@@ -5,9 +5,9 @@
 #include <time.h> 
 
 typedef struct puusolmu_t {
-  int luku;
-  short tila; /* tasapainoilmaisin */
-  struct puusolmu_t *vasen, *oikea;
+	int luku;
+	short tila; /* tasapainoilmaisin */
+	struct puusolmu_t *vasen, *oikea;
 } puusolmu, *puuosoitin;
 
 void lisaa_solmu(puuosoitin *, int, int *);
@@ -19,88 +19,88 @@ void generateList(int [], int);
 void addListToTree(puuosoitin *, int *, int [], int);
 void searchListFromTree(puuosoitin *, int [], int);
 void timeSearch(puuosoitin *, int [], int);
-int treeSize(puuosoitin);
+int  treeSize(puuosoitin);
 void readFromFile(int []);
 void findFile(char *);
-int menu();
+int  menu();
 
 void lisaa_solmu(puuosoitin *emo, int luku, int *etp){
-  if(!(*emo)){
-    *etp = 1;
-    if(!(*emo = (puuosoitin)malloc(sizeof(puusolmu)))){
-      perror("malloc");
-      exit(1);
-    }
+	if(!(*emo)){
+    	*etp = 1;
+    	if(!(*emo = (puuosoitin)malloc(sizeof(puusolmu)))){
+    		perror("malloc");
+    		exit(1);
+    	}
     (*emo)->vasen = (*emo)->oikea = NULL;
     (*emo)->tila = 0;
     (*emo)->luku = luku;
-  } else if(luku < (*emo)->luku){
-    lisaa_solmu(&(*emo)->vasen, luku, etp);
-    if(*etp){
-      switch((*emo)->tila){
-        case -1:
-          (*emo)->tila = 0;
-          *etp = 0;
-          break;
-        case 0:
-          (*emo)->tila = 1;
-          break;
-        case 1:
-          vasen_kierto(emo, etp);
-      }
-    }
-  } else if(luku > (*emo)->luku){
-    lisaa_solmu(&(*emo)->oikea, luku, etp);
-    if(*etp){
-      switch((*emo)->tila){
-        case 1:
-          (*emo)->tila = 0;
-          *etp = 0;
-          break;
-        case 0:
-          (*emo)->tila = -1;
-           break;
-        case -1:
-          oikea_kierto(emo, etp);
-      }
-    }
-  } else{
-    *etp = 0;
-    printf("Number %d is already in the tree\n", luku);
-  }
+	} else if(luku < (*emo)->luku){
+    	lisaa_solmu(&(*emo)->vasen, luku, etp);
+    	if(*etp){
+    		switch((*emo)->tila){
+        	case -1:
+        		(*emo)->tila = 0;
+    			*etp = 0;
+        		break;
+        	case 0:
+        		(*emo)->tila = 1;
+        		break;
+        	case 1:
+        		vasen_kierto(emo, etp);
+      		}
+    	}
+	} else if(luku > (*emo)->luku){
+		lisaa_solmu(&(*emo)->oikea, luku, etp);
+		if(*etp){
+		switch((*emo)->tila){
+			case 1:
+				(*emo)->tila = 0;
+				*etp = 0;
+				break;
+			case 0:
+				(*emo)->tila = -1;
+				break;
+			case -1:
+				oikea_kierto(emo, etp);
+			}
+		}
+	} else{
+		*etp = 0;
+		printf("Number %d is already in the tree\n", luku);
+	}
 }
 
 void vasen_kierto(puuosoitin *emo, int *etp){
-  puuosoitin lapsi, lapsenlapsi;
+	puuosoitin lapsi, lapsenlapsi;
 
-  lapsi = (*emo)->vasen;
-  if(lapsi->tila == 1){ /* LL-kierto */
-    (*emo)->vasen = lapsi->oikea;
-    lapsi->oikea = *emo;
-    (*emo)->tila = 0;
-    (*emo) = lapsi;
-  } else{ /* LR-kierto */
-    lapsenlapsi = lapsi->oikea;
-    lapsi->oikea = lapsenlapsi->vasen;
-    lapsenlapsi->vasen = lapsi;
-    (*emo)->vasen = lapsenlapsi->oikea;
-    lapsenlapsi->oikea = *emo;
-    switch(lapsenlapsi->tila){
-      case 1:
-        (*emo)->tila = -1;
-        lapsi->tila = 0;
-        break;
-      case 0:
-        (*emo)->tila = lapsi->tila = 0;
-        break;
-      case -1:
-        (*emo)->tila = 0;
-        lapsi->tila = 1;
-    }
-    *emo = lapsenlapsi;
-  }
-  (*emo)->tila = 0;
-  *etp = 0;
+	lapsi = (*emo)->vasen;
+	if(lapsi->tila == 1){ /* LL-kierto */
+		(*emo)->vasen = lapsi->oikea;
+		lapsi->oikea = *emo;
+		(*emo)->tila = 0;
+		(*emo) = lapsi;
+	} else{ /* LR-kierto */
+		lapsenlapsi = lapsi->oikea;
+		lapsi->oikea = lapsenlapsi->vasen;
+		lapsenlapsi->vasen = lapsi;
+		(*emo)->vasen = lapsenlapsi->oikea;
+		lapsenlapsi->oikea = *emo;
+		switch(lapsenlapsi->tila){
+			case 1:
+				(*emo)->tila = -1;
+				lapsi->tila = 0;
+				break;
+			case 0:
+				(*emo)->tila = lapsi->tila = 0;
+				break;
+			case -1:
+				(*emo)->tila = 0;
+				lapsi->tila = 1;
+		}
+		*emo = lapsenlapsi;
+	}
+	(*emo)->tila = 0;
+	*etp = 0;
 }
 
 void oikea_kierto(puuosoitin *emo, int *etp){
