@@ -140,12 +140,9 @@ void tulosta_puu(puuosoitin solmu, int depth){
 	if(!solmu) return;
 
 	tulosta_puu(solmu->oikea, depth +1);
-	printf("\n");
-	for(int i = 0; i<depth; i++){
-		printf(" ");
-	}
+
+	for(int i = 0; i<depth; i++) printf(" ");
 	printf("%d\n", solmu->luku);
-	printf("\n");
 
 	tulosta_puu(solmu->vasen, depth + 1); 
 }
@@ -176,10 +173,8 @@ void addListToTree(puuosoitin *puu, int *etp, int array[], int printBool){
     	lisaa_solmu(puu, array[i], etp);
 		if(printBool){
 			printf("\n");
-			printf("Tree starts\n");
 			tulosta_puu(*puu, 0); // Tulostus: Puun rakentuminen vaihe vaiheelta
-			printf("Tree ends\n");
-			printf("\n");
+			printf("#####################\n");
 		}
 	}
 }
@@ -214,9 +209,9 @@ void readFromFile(int array[]){
 	findFile(fileName);
 
 	if((pFile = fopen(fileName, "r")) == NULL){
-    perror("Error while reading file");
-    return;
-  }
+		perror("Error while reading file");
+		return;
+	}
 	printf("Reading file... (MAX 100000)\n");
 	while(fscanf(pFile, "%d", &array[i]) != EOF){
 		i++;
@@ -272,7 +267,6 @@ int main(){
 
 	//Löytyykö puusta avaimet 6, 1, 10 ja 16?
 	searchListFromTree(&puu, haettavat1, 1);
-	printf("\n");
 	printf("\n");
 
 	//Testaa ohjelmaasi, kun avaimia on 10, 100, 1000, 10000, 100000 (tai vielä enemmän).
