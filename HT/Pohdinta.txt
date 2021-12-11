@@ -1,6 +1,7 @@
 Avaimien löytymisestä ja lisäilyistä katso itse ohjelma HT.c
 
-Binäärisen hakupuun aikakompleksituus O(log(n)) ja aikamittausten jälkeen sanoisin ohjelman olevan samassa kompleksisuusluokassa.
+Tasoitetun binäärisen hakupuun aikakompleksisuus O(log(n)), mikä johtuu puun maksimi syvyydestä. 
+Aikamittausten jälkeen sanoisin haun olevan aikakompleksisuusluokassa O(n)
 
 Puusta voidaan poistaa solmuja kolmella tyylillä.
 Jos poistettava solmu on juuri niin voi vaan poistaa.
